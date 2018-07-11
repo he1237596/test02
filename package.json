@@ -1,0 +1,22 @@
+{
+  "name": "test02",
+  "version": "1.0.0",
+  "description": "练习webpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/he1237596/test02.git"
+  },
+  "author": "chris",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/he1237596/test02/issues"
+  },
+  "homepage": "https://github.com/he1237596/test02#readme",
+  "devDependencies": {
+    "webpack": "^3.12.0"
+  }
+}

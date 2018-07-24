@@ -1,7 +1,17 @@
 let Path = require("path");
 let webpack = require("webpack");
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const htmlWebpackPlugin = require('html-webpack-plugin')
+const htmlWebpackPlugin = require('html-webpack-plugin');
+const getHtmlConfig = function(name){
+  return new htmlWebpackPlugin({
+      template:'./src/views/'+name+'.html',
+      filename:'views/'+name+'.html',
+      inject: true,
+      hash:true,
+      chunks:['base',name],
+      chunksSortMode: "manual"
+     })
+}
 const config = {
 //entry: Path.resolve(__dirname,"./src/js/index.js"),
   entry: {
@@ -30,6 +40,18 @@ const config = {
                   fallback:"style-loader",
                   use:"css-loader"
               })
+      },
+      {
+        test:/\.(gif|png|jpg|woff|svg|eot|ttf)\??.*$/,
+        // use:['url-loader?limit=100&name=resource/[name].[ext]','file-loader']
+        use:[{
+          loader:'url-loader',
+          options:{
+            limit: 100,
+            // name:"resource/[name]-[hash:5].[ext]"
+            name:"resource/[name]-[hash:5].[ext]"
+          }
+        }]
       }
    	]
    },
@@ -47,9 +69,10 @@ const config = {
      	filename:'views/index.html',
      	inject: true,
      	hash:true,
-     	chunks:['base','index','login'],
+     	chunks:['base','index'],
      	chunksSortMode: "manual"
-     })
+     }),
+      getHtmlConfig('login')
    ]
 };
 

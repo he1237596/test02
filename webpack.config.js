@@ -49,7 +49,8 @@ const config = {
           options:{
             limit: 100,
             // name:"resource/[name]-[hash:5].[ext]"
-            name:"resource/[name]-[hash:5].[ext]"
+            name:"resource/[name]-[hash:5].[ext]",
+            publicPath:"/dist/"
           }
         }]
       }

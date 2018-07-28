@@ -3,8 +3,6 @@ let webpack = require("webpack");
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-//判断是否生产模式
-const isProduction = process.env.NODE_ENV === "production";
 const getHtmlConfig = function(name){
   return new htmlWebpackPlugin({
       template:'./src/views/'+name+'.html',
@@ -20,8 +18,7 @@ const config = {
 
   entry: {
 	"module": Path.resolve(__dirname,"./src/js/module.js"),
-		// "common": [Path.resolve(__dirname,"./src/js/base/base.js"),'webpack-dev-server/client?http://localhost:8088/'],
-        "common": [Path.resolve(__dirname,"./src/js/base/base.js")],
+		"common": Path.resolve(__dirname,"./src/js/base/base.js"),
   	"login": Path.resolve(__dirname,"./src/js/login/login.js"),
   	"index": Path.resolve(__dirname,"./src/js/index/index.js"),
   	"test": Path.resolve(__dirname,"./src/js/test/test.js")
@@ -29,9 +26,8 @@ const config = {
   },
 
   output:{
-  	path: Path.resolve(__dirname,"dist"),
-    // path: "dist",
-    // publicPath:"./dist",
+  	path: Path.resolve(__dirname,"./dist"),
+    publicPath:"./dist",
 //	filename:"index.js"
   	filename:"js/[name].js"
   },
@@ -57,25 +53,21 @@ const config = {
             limit: 100,
             // name:"resource/[name]-[hash:5].[ext]"
             name:"resource/[name]-[hash:5].[ext]",
-
-            publicPath: "../"
+            publicPath:"/"
           }
         }]
       }
    	]
    },
        devServer: {
-        // contentBase: Path.resolve(__dirname,"./dist"),
-        contentBase:"./dist",
-
-        host:"localhost",
-        // hot: true,
-        inline: true,
-        port:"8080"
+        contentBase: Path.resolve(__dirname,"./"),
+        // publicPath:"/dist/",
+        hot: true,
+        inline: true
     },
    plugins:[
-     // new CleanWebpackPlugin(['dist']),
-     // new webpack.HotModuleReplacementPlugin(),//3热更新
+     new CleanWebpackPlugin(['dist']),
+     new webpack.HotModuleReplacementPlugin(),//3热更新
 
    //独立通用模块
    	 new webpack.optimize.CommonsChunkPlugin({//抽取公共js.在入口中除了自身外被其他所有文件都有引入的文件会被抽取出来
@@ -86,9 +78,8 @@ const config = {
      new ExtractTextPlugin('css/[name].css'),
      //html模板处理
      new htmlWebpackPlugin({
-      // publicPath:"/dist",
      	template:'./src/views/index.html',
-     	filename:'./views/index.html',
+     	filename:'index.html',
      	inject: true,
      	hash:true,
      	chunks:['common','index'],
@@ -99,18 +90,3 @@ const config = {
 };
 
 module.exports = config;
-//生产模式
-if (isProduction) {
-    module.exports.devtool = "source-map";
-    module.exports.plugins = (module.exports.plugins || []).concat([
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify('production')
-            }
-        }),
-        //uglifyJs压缩
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true
-        })
-    ]);
-}

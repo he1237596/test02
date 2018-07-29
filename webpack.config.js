@@ -24,7 +24,7 @@ const config = {
         "common": [Path.resolve(__dirname,"./src/js/base/base.js")],
   	"login": Path.resolve(__dirname,"./src/js/login/login.js"),
   	"index": Path.resolve(__dirname,"./src/js/index/index.js"),
-  	"test": Path.resolve(__dirname,"./src/js/test/test.js")
+  	// "test": Path.resolve(__dirname,"./src/js/test/test.js")
   	
   },
 
@@ -73,6 +73,11 @@ const config = {
         inline: true,
         port:"8080"
     },
+    resolve:{
+      alias:{
+        base:__dirname + "./src/base"
+      }
+    }
    plugins:[
      // new CleanWebpackPlugin(['dist']),
      // new webpack.HotModuleReplacementPlugin(),//3热更新

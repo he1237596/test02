@@ -71,13 +71,13 @@ const config = {
         host:"localhost",
         // hot: true,
         inline: true,
-        port:"8080"
+        port:"8088"
     },
     resolve:{
       alias:{
         base:__dirname + "./src/base"
       }
-    }
+    },
    plugins:[
      // new CleanWebpackPlugin(['dist']),
      // new webpack.HotModuleReplacementPlugin(),//3热更新
